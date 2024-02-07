@@ -1,0 +1,6 @@
+server:
+  port: 9000
+
+well:
+  known:
+    url: https://api.github.com/users/mfanti
