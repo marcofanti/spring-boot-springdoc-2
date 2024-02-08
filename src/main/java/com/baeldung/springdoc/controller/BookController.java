@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-@RestController
-@RequestMapping("/api/book")
+//@RestController
+//@RequestMapping("/api/book")
 public class BookController {
-
+/*
     private final BookRepository repository;
 
     public BookController(BookRepository repository) {
@@ -80,5 +80,5 @@ public class BookController {
     @ResponseStatus(HttpStatus.OK)
     public long deleteBook(@PathVariable final long id) {
         return id;
-    }
+    } */
 }
