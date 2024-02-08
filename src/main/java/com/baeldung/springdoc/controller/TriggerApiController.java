@@ -1,56 +1,56 @@
 package com.baeldung.springdoc.controller;
 
 
-import com.baeldung.springdoc.model.Audience;
+import com.baeldung.springdoc.openapitools.models.TriggerEventParameters;
+import com.baeldung.springdoc.repository.AudienceRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import com.baeldung.springdoc.openapitools.models.RegisterParameters;
-import com.baeldung.springdoc.openapitools.models.RegisterResponse;
-import com.baeldung.springdoc.repository.AudienceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import java.net.URI;
+
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 //@RequestMapping("${openapi.streamManagementAPIForOpenIDSharedSecurityEvents.base-path:}")
 @Validated
 @Tag(name = "OutOfBand", description = "Endpoints that are NOT a part of the [Open ID Spec](https://openid.net/specs/openid-sse-framework-1_0.html), but that exist for convenience within this demo.")
-public class RegisterApiController {
+public class TriggerApiController {
     @Autowired
     AudienceRepository audienceRepository;
 
+    /**
+     * POST /trigger-event : Request the transmitter to create a SSE event of certain type and subject and send it to the (streams)receivers that care about the subject.
+     * This endpoint is not part of the spec, but rather a quick-and-dirty way to  test out sample security events other than verification.
+     *
+     * @param triggerEventParameters  (required)
+     * @return On successful creation of an event, it will be sent out as per SSE spec (i.e. push or poll). (status code 200)
+     */
     @Operation(
-        operationId = "register",
-        summary = "Request the transmitter to setup a stream for a given receiver.",
-        description = "This endpoint is not part of the spec, but rather a quick-and-dirty way to allow a receiver to pass along its audience claim in exchange for a bearer token.",
-        tags = {"OutOfBand"},
+        operationId = "triggerEvent",
+        summary = "Request the transmitter to create a SSE event of certain type and subject and send it to the (streams)receivers that care about the subject.",
+        description = "This endpoint is not part of the spec, but rather a quick-and-dirty way to  test out sample security events other than verification.",
+        tags = { "OutOfBand" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "On successful creation of a stream, returns a bearer token that will be used for subsequent requests.", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = RegisterResponse.class))
-            })
+            @ApiResponse(responseCode = "200", description = "On successful creation of an event, it will be sent out as per SSE spec (i.e. push or poll).")
         }
     )
 
-    @PostMapping("/register")
+    @PostMapping("/trigger-event")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<RegisterResponse> register(
+    public ResponseEntity<Void> triggerEvent(
 
-        @Parameter(name = "RegisterParameters", description = "", required = true) @Valid @RequestBody RegisterParameters registerParameters,
+        @Parameter(name = "TriggerEventParameters", description = "", required = true) @Valid @RequestBody TriggerEventParameters triggerEventParameters,
         @RequestHeader(name = "Accept", required = true) Map<String, String> headers,
         HttpServletResponse response
     ) {
-
+/*
         URI audienceURI = registerParameters.getAudience();
         if (audienceURI == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -71,7 +71,8 @@ public class RegisterApiController {
             response.addHeader("Content-Type", "application/json");
             RegisterResponse registerResponse = new RegisterResponse();
             registerResponse.setToken(token);
-            return new ResponseEntity<>(registerResponse, HttpStatus.CREATED);
-        }
+            return new ResponseEntity<>(registerResponse, HttpStatus.CREATED); */
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
     }
 }
