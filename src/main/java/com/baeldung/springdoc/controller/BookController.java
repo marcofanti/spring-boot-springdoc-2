@@ -66,6 +66,7 @@ public class BookController {
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     public Book postBook(@NotNull @Valid @RequestBody final Book book) {
+        repository.add(book);
         return book;
     }
 

@@ -4,8 +4,15 @@ package com.baeldung.springdoc.model;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "Book")
 public class Book {
 
+    @Id
     private long id;
 
     @NotBlank

@@ -22,6 +22,7 @@ public class BookRepository {
     }
 
     public Collection<Book> getBooks() {
+        System.out.println("books.values() = " + books.values());
         return books.values();
     }
 
